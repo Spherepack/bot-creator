@@ -19,6 +19,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     private $sendArray = [];
     private $message;
     private $userId;
+    private $userName;
 
     private $validate = [];
     private $requiredFields = ['userId', 'message'];
@@ -40,10 +41,23 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
         if (!empty($this->response['message'])) {
             $this->method = 'answer';
             $this->setUserId($this->response['message']['chat']['id']);
+            $this->setUserName($this->response['message']['chat']['first_name']);
             $this->setMessage($this->response['message']['text']);
         }
     }
 
+    function setUserName($name)
+    {
+        $this->userName = $name;
+        $this->validate[] = 'userName';
+
+    }
+
+    function getUserName()
+    {
+        return $this->userName;
+
+    }
     /**
      * Метод устанавливает Telegram UserId для последующей отправки ему сообщения
      *

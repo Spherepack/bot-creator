@@ -9,6 +9,7 @@ interface BotInterface
      * @return int
      */
     function getUserId(): int;
+    function getUserName();
 
     function setMessage(string $message);
 

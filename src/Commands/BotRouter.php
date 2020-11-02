@@ -2,6 +2,7 @@
 namespace Bot\Commands;
 
 use Bot\Contracts\BotCommandsInterface;
+use Bot\Contracts\BotInterface;
 use Bot\Contracts\BotRouterInterface;
 
 class BotRouter implements BotRouterInterface
@@ -26,21 +27,21 @@ class BotRouter implements BotRouterInterface
     /**
      * @param string $command
      * @param int $userId
-     * @param array $params
+     * @param BotInterface $bot
      * @return array
      */
-    function call($command, $userId, $params = [])
+    function call($command, $userId, BotInterface $bot)
     {
         $result = $this->botCommand->getMethod(mb_strtolower($command));
 
         $answer = false;
         if (!empty($result['method']) && method_exists($this->botCommand, $result['method'])){
             $method = $result['method'];
-            $answer = $this->botCommand->$method($userId, $params);
+            $answer = $this->botCommand->$method($userId, $bot);
 
         }elseif(method_exists($this->botCommand, $this->defaultMethod)){
             $method = $this->defaultMethod;
-            $answer = $this->botCommand->$method($userId, $params);
+            $answer = $this->botCommand->$method($userId, $bot);
 
         }
         return [
