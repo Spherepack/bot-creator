@@ -4,7 +4,7 @@ namespace Bot\Contracts;
 interface BotInterface
 {
 
-    function getUserId($bitrixId = false);
+    function getUserId();
     function setMessage($message);
     function getMessage();
     function setKeyboard(array $array);

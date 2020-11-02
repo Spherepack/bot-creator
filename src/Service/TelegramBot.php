@@ -68,14 +68,9 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      * @param bool|integer $bitrixId
      * @return mixed
      */
-    function getUserId($bitrixId = false)
+    function getUserId()
     {
-        if (!$bitrixId) {
-            return $this->userId;
-        }
-
-        // TODO: add method for bitrix userId
-
+        return $this->userId;
     }
 
     /**

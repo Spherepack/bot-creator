@@ -12,8 +12,8 @@ abstract class BotCommands implements BotCommandsInterface
     function __construct()
     {
         try {
-            $configName = $this->getRouteConfigName();
-            $routePath = __DIR__ . '/routes/' . $configName;
+            $configName = $this->getRouteConfigPath();
+            $routePath = $configName;
             if (!file_exists($routePath)){
                 throw new \Exception("File [$configName] not found!");
             }
@@ -23,7 +23,7 @@ abstract class BotCommands implements BotCommandsInterface
         }
     }
 
-    abstract protected function getRouteConfigName(): string;
+    abstract protected function getRouteConfigPath(): string;
 
     final function getMethod($command)
     {
