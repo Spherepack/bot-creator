@@ -8,6 +8,7 @@ use Bot\Helpers\Helper;
 use Bot\Traits\KeyboardTrait;
 use GuzzleHttp\Client;
 use Telegram\Bot\Api;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class TelegramBot implements BotInterface, BotKeyboardInterface
 {
@@ -29,12 +30,13 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     /**
      * TelegramBot constructor.
      *
-     * @param Api $bot
+     * @param string $token
+     * @throws TelegramSDKException
      */
-    function __construct(Api $bot)
+    function __construct(string $token)
     {
-        $this->bot = $bot;
-        $this->response = $bot->getWebhookUpdate();
+        $this->bot = new Api($token);
+        $this->response = $this->bot->getWebhookUpdate();
         if (!empty($this->response['message'])) {
             $this->method = 'answer';
             $this->setUserId($this->response['message']['chat']['id']);

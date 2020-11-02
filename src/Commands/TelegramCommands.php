@@ -9,7 +9,7 @@ class TelegramCommands extends BotCommands
 
     protected function getRouteConfigName(): string
     {
-        return 'telegram11.php';
+        return 'telegram.php';
     }
 
     function register($userId, $params)
