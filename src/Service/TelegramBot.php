@@ -204,7 +204,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
 
 
         $data = [
-            'url' => 'https://corp-dev.localcopy.ru/api/bot/',
+            'url' => $url,
         ];
         /**@var Client $client */
         $client = new Client();
@@ -222,9 +222,6 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
             print_r($exception->getMessage());
             echo "</pre>";
         }
-        $result = (string)$response->getBody();
-
-
     }
 
 
