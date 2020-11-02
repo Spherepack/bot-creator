@@ -62,7 +62,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     }
 
     /**
-     * Если указан bitrixId, метод вернет привязанный к аккаунту UserId
+     * Метод возвращает установленный Telegram UserId
      *
      * @return int
      */
