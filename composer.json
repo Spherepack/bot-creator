@@ -1,5 +1,5 @@
 {
-    "name": "spherepack/bot-creater",
+    "name": "spherepack/bot-creator",
     "description": "You can easily create your own bot and work with it",
     "type": "library",
     "autoload": {
@@ -7,7 +7,7 @@
             "Bot\\": "src/"
         }
     },
-    "homepage": "https://github.com/Spherepack/bot-create",
+    "homepage": "https://github.com/Spherepack/bot-creator",
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8",
