@@ -62,13 +62,11 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     }
 
     /**
-     * Метод возвращает установленный Telegram UserId
      * Если указан bitrixId, метод вернет привязанный к аккаунту UserId
      *
-     * @param bool|integer $bitrixId
-     * @return mixed
+     * @return int
      */
-    function getUserId()
+    function getUserId(): int
     {
         return $this->userId;
     }
@@ -78,7 +76,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      *
      * @return bool|string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return (string) $this->message;
     }
@@ -91,6 +89,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     function setMessage($message)
     {
         $this->message = $message;
+
         $this->validate[] = 'message';
     }
 
@@ -101,7 +100,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      *
      * @return bool
      */
-    function isAnswer()
+    function isAnswer(): bool
     {
         return $this->method == 'answer';
     }
@@ -143,7 +142,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      *
      * @param $error
      */
-    private function setError($error)
+    public function setError($error)
     {
         $this->error[] = $error;
     }
@@ -173,7 +172,7 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      *
      * @return array
      */
-    function send()
+    function send(): array
     {
         try {
             if ($this->validate()) {

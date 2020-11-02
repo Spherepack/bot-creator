@@ -4,6 +4,6 @@ namespace Bot\Contracts;
 interface BotRouterInterface
 {
 
-    function call($method, $userId, $params = []);
+    function call(string $method, int $userId, array $params = []);
 
 }

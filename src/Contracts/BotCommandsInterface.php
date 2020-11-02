@@ -3,5 +3,5 @@ namespace Bot\Contracts;
 
 interface BotCommandsInterface
 {
-    function getMethod($command);
+    function getMethod(string $command):array;
 }

@@ -1,14 +1,24 @@
 <?php
+
 namespace Bot\Contracts;
 
 interface BotInterface
 {
 
-    function getUserId();
-    function setMessage($message);
+    /**
+     * @return int
+     */
+    function getUserId(): int;
+
+    function setMessage(string $message);
+
     function getMessage();
+
     function setKeyboard(array $array);
-    function setUserId($userId);
-    function send();
-    function isAnswer();
+
+    function setUserId(string $userId);
+
+    function send(): array;
+
+    function isAnswer(): bool;
 }
