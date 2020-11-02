@@ -1,0 +1,14 @@
+{
+    "name": "spherepack/bot-creater",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Bot\\": "src/"
+        }
+    },
+    "require": {
+        "irazasyed/telegram-bot-sdk": "^3.3",
+        "guzzlehttp/guzzle": "^7.2"
+    },
+    "description": "You can easily create your own bot and work with it"
+}
