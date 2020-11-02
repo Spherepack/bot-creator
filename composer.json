@@ -1,14 +1,19 @@
 {
     "name": "spherepack/bot-creater",
+    "description": "You can easily create your own bot and work with it",
     "type": "library",
     "autoload": {
         "psr-4": {
             "Bot\\": "src/"
         }
     },
+    "homepage": "https://github.com/Spherepack/bot-create",
+    "license": "MIT",
     "require": {
+        "php": "^7.2 || ^8",
+        "ext-json": "*",
         "irazasyed/telegram-bot-sdk": "^3.3",
         "guzzlehttp/guzzle": "^7.2"
-    },
-    "description": "You can easily create your own bot and work with it"
+    }
+
 }
