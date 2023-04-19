@@ -13,13 +13,15 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 class TelegramBot implements BotInterface, BotKeyboardInterface
 {
 
-    private $method = 'send';
+    private string $method = 'send';
+    private string $token;
     private $bot;
     private $response;
-    private $sendArray = [];
-    private $message;
-    private $userId;
-    private $userName;
+    private array $sendArray = [];
+    private string $message = '';
+    private $files = [];
+    private ?int $userId;
+    private string $userName = '';
 
     private $validate = [];
     private $requiredFields = ['userId', 'message'];
@@ -36,13 +38,29 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
      */
     function __construct(string $token)
     {
+        $this->token = $token;
         $this->bot = new Api($token);
         $this->response = $this->bot->getWebhookUpdate();
+
         if (!empty($this->response['message'])) {
             $this->method = 'answer';
             $this->setUserId($this->response['message']['chat']['id']);
             $this->setUserName($this->response['message']['chat']['first_name']);
-            $this->setMessage($this->response['message']['text']);
+
+            if (!empty($this->response['message']['text'])) {
+                $this->setMessage($this->response['message']['text']);
+            }
+
+            if (!empty($this->response['message']['caption'])) {
+                $this->setMessage($this->response['message']['caption']);
+            }
+
+            if (!empty($this->response['message']['photo'])) {
+                $photos = [...$this->response['message']['photo']];
+                $photo = array_pop($photos);
+                $photoAr = $this->bot->getFile(['file_id' => $photo['file_id']]);
+                $this->setFiles($photoAr->getRawResponse());
+            }
         }
     }
 
@@ -51,6 +69,21 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
         $this->userName = $name;
         $this->validate[] = 'userName';
 
+    }
+
+
+    // Функция вызова методов API.
+    function sendTelegram($method, $response)
+    {
+        $ch = curl_init('https://api.telegram.org/bot' . $this->token . '/' . $method);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $response);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        return $res;
     }
 
     function getUserName()
@@ -96,6 +129,16 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
     }
 
     /**
+     * Метод возвращает файлы, полученное от пользователя
+     *
+     * @return bool|string
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
      * Метод устанавливает текст сообщения для последующей отправки
      *
      * @param string $message
@@ -105,6 +148,13 @@ class TelegramBot implements BotInterface, BotKeyboardInterface
         $this->message = $message;
 
         $this->validate[] = 'message';
+    }
+
+    function setFiles($files)
+    {
+        $this->files = $files;
+
+        $this->validate[] = 'files';
     }
 
     /**
