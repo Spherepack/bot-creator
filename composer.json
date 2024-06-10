@@ -10,7 +10,7 @@
     "homepage": "https://github.com/Spherepack/bot-creator",
     "license": "MIT",
     "require": {
-        "php": "^7.2 || ^8",
+        "php": "^7.4 || ^8",
         "ext-json": "*",
         "irazasyed/telegram-bot-sdk": "^3.3",
         "guzzlehttp/guzzle": "*"

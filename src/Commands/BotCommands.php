@@ -9,6 +9,7 @@ abstract class BotCommands implements BotCommandsInterface
 {
     private $routes;
     private $method = false;
+    private $params = [];
     private $errors = [];
     private $answer = [
         'message' => null,
@@ -38,17 +39,43 @@ abstract class BotCommands implements BotCommandsInterface
 
     final function getMethod(string $command): array
     {
-        try {
-            if (empty($this->routes[$command])) {
-                throw new \Exception("Command [{$command}] not found!");
+        $command = trim($command, " \t\n\r\0\x0B\/");
+        $method = null;
+        $params = [];
+        foreach ($this->routes as $commandPattern => $methodPattern) {
+            try {
+                preg_match("/$commandPattern$/", $command, $match);
+
+                if (!empty($match[0])) {
+                    array_shift($match);
+
+                    $methodArray = explode('_', $methodPattern);
+                    $method = array_shift($methodArray);
+
+                    if (!empty($methodArray)) {
+                        foreach ($methodArray as $key => $param) {
+                            try {
+                                $params[$param] = $match[$key];
+                            } catch (\Throwable $e) {
+                                continue;
+                            }
+                        }
+                    }
+
+                    $this->method = $method;
+                    $this->params = $params;
+                    break;
+                }
+            } catch (\Throwable $exception) {
+                $this->errors[] = "Ошибка распознования команды [$commandPattern => $method]";
             }
-            $this->method = $this->routes[$command];
-        } catch (\Exception $e) {
-            $this->errors[] = $e->getMessage();
+
+            $method = null;
         }
 
         return [
             'method' => $this->method,
+            'params' => $this->params,
             'errors' => $this->errors
         ];
     }
